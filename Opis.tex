@@ -1,0 +1,56 @@
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{indentfirst} %wcięcie na początku
+\usepackage[nofoot, hdivide={2cm,*,2cm}, vdivide={2cm,*,2cm}]{geometry}
+\usepackage{listings}
+\author{Mateusz Gieroba (322072)}
+\title{Opis projektu S9 - System rezerwacji sprzętu w Instytucie}
+\date{4 stycznia 2021}
+
+%S9  Prosty system rezerwacji sprz ̨etu projekcyjnego (rzutniki, laptopy, itp.) w instytucie w czasie jednegosemestru.
+% Sprzęt mo ̇zna rezerwowa ́c na ustalone godziny w zadanym dniu tygodnia na cały semestr lub na pojedynczy termin. 
+%System powinien umo ̇zliwi ́c wprowadzanie, usuwanie i edytowanie opisówsprz ̨etów  i  rezerwacji  oraz  drukowa ́c  tygodniowy  plan  rezerwacji  dla  podanego  tygodnia,  
+%a  tak ̇zeinformowa ́c,  który  sprz ̨et  jest  wolny  w  podanym  terminie.   
+%Mo ̇zna  zaproponowa ́c  inne  sensownezapytania do systemu
+
+\begin{document}
+\maketitle
+\section{Cel projektu}
+Celem projektu jest stworzenie systemu rezerwacji sprzętu projekcyjnego w Instytucie Informatyki w czasie semestru letniego 2021. System ma umożliwiać
+wypożyczanie sprzętu (rezerwacje), zarządzanie bazą urządzeń, odpowiadać na zapytania o dostępność danego urządzenia w danym dniu, dane urządzenia bądź danego wypożyczenia, generować plan wypożyczeń 
+w danym tygodniu oraz generować listę wypożyczeń danego sprzętu.
+
+\section{Podział na moduły}
+
+Celem łatwiejszego utrzymania kodu oraz ewentualnej jego optymalizacji zamierzam podzielić go na moduły pokrywające:
+odpowiednie bazy danych i wprowadzające ich funkcjonalności oraz interfejs użytkownika (program główny).
+
+\subsection{Baza urządzeń}
+Jedna z baz, która będzie służyć wypisywaniu informacji o urządzeniu w odpowiedzi na zapytania użytkownika.
+System będzie ją utrzymywać w postaci pliku tekstowego, w którym każda linia będzie odpowiadać za jeden rekord z polami separowanymi średnikiem. Operacje, które będzie udostępniać to 
+modyfikacja rekordów oraz wypisanie w odpowiednim formatowaniu informacji o urządzeniu.
+
+\subsection{Baza wypożyczeń}
+Ta baza będzie utrzymywać rekordy dotyczące zdarzeń wypożyczenia danego sprzętu (cykliczność, okres wypożyczenia, wypożyczający, sprzęt wypożyczany).
+Zastosowany zostanie ten sam format pliku tekstowego, co w przypadku bazy urządzeń. Oprócz modyfikacji rekordów będzie udostępniać
+wypisanie informacji o danym wypożyczeniu na podstawie jego identyfikatora bądź listować wszystkie wypożyczenia.
+
+\subsection{System zapytań}
+Jest to najbardziej rozbudowany moduł odpowiadający za przetworzenie wczytanych danych z obu baz oraz obsługę zaawansowanych zapytań.
+Będzie korzystać z pamięci przydzielonej uruchomionemu programowi aby generować tygodniowe plany wypożyczeń oraz odpowiadać na zapytania o dostępność sprzętu w danym dniu.
+
+\subsection{Interfejs użytkownika}
+
+Planuję odpowiadać na zapytania na standardowym wyjściu, a wyniki operacji dodawania, usuwania bądź edycji rekordów zapisywać do plików odpowiednich baz.
+Całość obsługi systemu będzie odbywać się w terminalu poprzez wybieranie odpowiedniej funkcji programu głównego (interfejs będzie informował użytkownika o koniecznych krokach).
+Nie czuję się na tyle biegle w programowaniu w GTK+, aby skorzystać z tej biblioteki w tym momencie, lecz chciałbym zostawić sobie możliwość implementacji prostego interfejsu graficznego do obsługi zapytań oraz baz danych z tego projektu.
+
+
+
+
+
+
+
+\end{document}
