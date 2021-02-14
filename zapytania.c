@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #include "zapytania.h"
 #include "wypozyczenia.h"
 #include "urzadzenia.h"
@@ -75,13 +76,13 @@ void drukujPlanWypozyczen(Urzadzenie *Urzadzenia)
   else
     stream = stdout;
   char s[20], k[20];
-  int koniec = MIN(poczatek + 167, 4536);
+  int koniec = MIN(poczatek + 167, 5255);
   liczbaNaDate(MAX(poczatek, 0), s);
   liczbaNaDate(koniec, k);
   fprintf(stream, "\n---------------------------------------------\nPlan wypożyczeń w tygodniu %s - %s\n---------------------------------------------\n", s, k);
   char dzien[20];
   for(int i = 0; i <= 6; i++){
-    if(poczatek + 24*i < 0 || poczatek + 24*i > 4536)
+    if(poczatek + 24*i < 0 || poczatek + 24*i > 5255)
       continue;
     switch(i)
     {

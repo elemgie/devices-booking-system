@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #include "urzadzenia.h"
 #include "wypozyczenia.h"
 #include "zapytania.h"

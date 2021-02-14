@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #include "urzadzenia.h"
 
 int maxdevices = 100, currdevices = 0;
@@ -70,7 +71,7 @@ Urzadzenie *wczytajUrzadzenia()
     if(koniec != nr) strncpy(Urzadzenia[cnt].opis, s + nr, koniec - nr);
     else Urzadzenia[cnt].nazwa[0] = '\0';
     nr = ++koniec;
-    Urzadzenia[cnt].czyAktywny = (bool)(s[nr + 1] - '0');
+    Urzadzenia[cnt].czyAktywny = (bool)(s[nr] - '0');
     //printf("%d %d %s %s\n", Urzadzenia[cnt].id, Urzadzenia[cnt].typ, Urzadzenia[cnt].nazwa , Urzadzenia[cnt].opis);
     cnt++;
   }
@@ -86,7 +87,7 @@ Urzadzenie *rozszerzUrzadzenia(Urzadzenie *Urzadzenia)
     noweUrzadzenia[i].id = Urzadzenia[i].id;
     noweUrzadzenia[i].typ = Urzadzenia[i].typ;
     noweUrzadzenia[i].czyAktywny = Urzadzenia[i].czyAktywny;
-    for(int j = 0; j <= 4416; j++)
+    for(int j = 0; j <= 5255; j++)
       noweUrzadzenia[i].rents[j] = Urzadzenia[i].rents[j];
     strcpy(noweUrzadzenia[i].nazwa, Urzadzenia[i].nazwa);
     strcpy(noweUrzadzenia[i].opis, Urzadzenia[i].opis);

@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #ifndef wypozyczenia_h
 #define wypozyczenia_h
 #include <stdio.h>
@@ -7,7 +8,7 @@
 
 int maxrents, currents;
 
-//System obsługuje okres od 24 lutego 2021 do 30 września 2021 dzieląc dzień na 24 godzinne części, 0 - 0:00 24 luty, 4537 - 0:00 1 października (nieużywane, przedział otwarty)
+//System obsługuje okres od 24 lutego 2021 do 30 września 2021 dzieląc dzień na 24 godzinne części, 0 - 0:00 24 luty, 5255 - 23:00 30 września
 typedef struct wypozyczenie{
   int id, idurzadzenia, poczatek, koniec;
   bool czySemestralne;

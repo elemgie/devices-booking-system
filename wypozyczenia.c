@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #include "wypozyczenia.h"
 #include "urzadzenia.h"
 
@@ -123,9 +124,19 @@ Wypozyczenie *wczytajWypozyczenia(Urzadzenie *Urzadzenia)
       koniec++;
     if(koniec != nr) strncpy(Wypozyczenia[cnt].osoba, s + nr, koniec - nr);
     else Wypozyczenia[cnt].osoba[0] = '\0';
-    nr = koniec = koniec + 2;
+    nr = koniec = koniec +1;
     Wypozyczenia[cnt].czyAktywne = (bool)(s[nr] - '0');
-    zajmijOkresDostepnosci(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, Wypozyczenia[cnt].id, Wypozyczenia[cnt].poczatek, Wypozyczenia[cnt].koniec);
+    int poczatek = Wypozyczenia[cnt].poczatek;
+    koniec = Wypozyczenia[cnt].koniec;
+    if(Wypozyczenia[cnt].czyAktywne){
+      zajmijOkresDostepnosci(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, Wypozyczenia[cnt].id, Wypozyczenia[cnt].poczatek, Wypozyczenia[cnt].koniec);
+      while(Wypozyczenia[cnt].czySemestralne && poczatek + 168 <= 5255 && koniec + 168 <= 5255){
+        poczatek += 168;
+        koniec += 168;
+        if(czyDostepneWDanymOkresie(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, poczatek, koniec))
+          zajmijOkresDostepnosci(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, currents, poczatek, koniec);
+      }
+    }
     cnt++;
   }
   fclose(plik);
@@ -192,7 +203,10 @@ void wypiszWypozyczenia(Wypozyczenie *Wypozyczenia, int wid, bool czyDoPliku)//i
       strcpy(sem, "Tak");
     else
       strcpy(sem, "Nie");        
-    fprintf(wypis, "-------------------------\nID: %d\nID urządzenia: %d\nWypożyczenie semestralne: %s\nOkres wypożyczenia: %s - %s\nWypożyczający: %s\n", Wypozyczenia[wid].id, Wypozyczenia[wid].idurzadzenia, sem, s, k, Wypozyczenia[wid].osoba);
+    if(Wypozyczenia[wid].czyAktywne)
+      fprintf(wypis, "-------------------------\nID: %d\nID urządzenia: %d\nWypożyczenie semestralne: %s\nOkres wypożyczenia: %s - %s\nWypożyczający: %s\n", Wypozyczenia[wid].id, Wypozyczenia[wid].idurzadzenia, sem, s, k, Wypozyczenia[wid].osoba);
+    else
+      printf("Wypożyczenie o podanym ID zostało skasowane\n");
   }
   fprintf(wypis, "--------------------------------------\n");
   if(czyDoPliku)
@@ -251,7 +265,7 @@ Wypozyczenie *dodajWypozyczenie(Wypozyczenie *Wypozyczenia, Urzadzenie *Urzadzen
   Wypozyczenia[currents].koniec = koniec;
   zajmijOkresDostepnosci(Urzadzenia, id, currents, poczatek, koniec);
   printf("Zarezerwowano termin %s - %s.\n", s, k);
-  while(sem == 'Y' && poczatek + 168 <= 4536 && koniec + 168 <= 4536){
+  while(sem == 'Y' && poczatek + 168 <= 5255 && koniec + 168 <= 5255){
     poczatek += 168;
     koniec += 168;
     liczbaNaDate(poczatek, s);
@@ -276,8 +290,13 @@ bool zapiszWypozyczenia(Wypozyczenie *Wypozyczenia)
     return false;
   }
   fprintf(plik, "%d\n", currents);
-  for(int i = 1; i <= currents; i++)
-    fprintf(plik, "%d;%d;%d;%d;%d;%s;%d;\n", Wypozyczenia[i].id, Wypozyczenia[i].idurzadzenia, Wypozyczenia[i].poczatek, Wypozyczenia[i].koniec, Wypozyczenia[i].czySemestralne, Wypozyczenia[i].osoba, Wypozyczenia[i].czyAktywne);
+  for(int i = 1; i <= currents; i++){
+    fprintf(plik, "%d;%d;%d;%d;%d;%s;", Wypozyczenia[i].id, Wypozyczenia[i].idurzadzenia, Wypozyczenia[i].poczatek, Wypozyczenia[i].koniec, Wypozyczenia[i].czySemestralne, Wypozyczenia[i].osoba);
+    if(Wypozyczenia[i].czyAktywne)
+      fprintf(plik, "1;\n");
+    else
+      fprintf(plik, "0;\n");
+  }
   free(Wypozyczenia);
   fclose(plik);
   return true;
@@ -301,7 +320,7 @@ void usunWypozyczenie(Wypozyczenie *Wypozyczenia, int id, Urzadzenie *Urzadzenia
   int pocz = Wypozyczenia[id].poczatek, kon = Wypozyczenia[id].koniec;
   for(int i = pocz; i < kon; i++)
     Urzadzenia[Wypozyczenia[id].idurzadzenia].rents[i] = 0;
-  while(Wypozyczenia[id].czySemestralne && pocz < 4550 && kon < 4550){
+  while(Wypozyczenia[id].czySemestralne && pocz < 5256 && kon < 5256){
     pocz += 168;
     kon += 168;
     if(Urzadzenia[Wypozyczenia[id].idurzadzenia].rents[pocz] == id)

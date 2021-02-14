@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #ifndef zapytania_h
 #define zapytania_h
 #include "urzadzenia.h"

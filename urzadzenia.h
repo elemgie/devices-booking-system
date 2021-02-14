@@ -1,3 +1,4 @@
+//Mateusz Gieroba (322072)
 #ifndef urzadzenia_h
 #define urzadzenia_h
 #include <stdio.h>
@@ -21,7 +22,7 @@ int id; //unikalne id
 int typ;
 char nazwa[33];
 char opis[203];
-int rents[4600];
+int rents[5300];
 bool czyAktywny;
 } Urzadzenie;
 
