@@ -1,11 +1,6 @@
-#include <stdio.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <string.h>
 #include "urzadzenia.h"
 
-int maxdevices = 1;
-int currdevices = 0;
+int maxdevices = 100, currdevices = 0;
 
 bool wczytajLinie(char *s, int n)
 {
@@ -91,6 +86,8 @@ Urzadzenie *rozszerzUrzadzenia(Urzadzenie *Urzadzenia)
     noweUrzadzenia[i].id = Urzadzenia[i].id;
     noweUrzadzenia[i].typ = Urzadzenia[i].typ;
     noweUrzadzenia[i].czyAktywny = Urzadzenia[i].czyAktywny;
+    for(int j = 0; j <= 4416; j++)
+      noweUrzadzenia[i].rents[j] = Urzadzenia[i].rents[j];
     strcpy(noweUrzadzenia[i].nazwa, Urzadzenia[i].nazwa);
     strcpy(noweUrzadzenia[i].opis, Urzadzenia[i].opis);
   }
@@ -110,6 +107,7 @@ bool zapiszUrzadzenia(Urzadzenie *Urzadzenia)
   for(int i = 1; i <= currdevices; i++)
     fprintf(plik, "%d;%d;%s;%s;%d;\n", Urzadzenia[i].id, Urzadzenia[i].typ, Urzadzenia[i].nazwa, Urzadzenia[i].opis, Urzadzenia[i].czyAktywny);
   free(Urzadzenia);
+  fclose(plik);
   return true;
 }
 
@@ -145,6 +143,7 @@ void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = 
   else
     stream = stdout;
   bool czyCosWypisano = false;
+  fprintf(stream, "--------------------------------------\n");
   for(int i = 1; i <= currdevices; i++)
     if(((Urzadzenia[i].typ == typ || typ == -1) && Urzadzenia[i].czyAktywny == true) || typ == 0){
       char s[50];
@@ -173,14 +172,17 @@ void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = 
     }
   if(!czyCosWypisano)
     printf("W bazie nie ma urządzeń spełniających podane wymagania\n");
+  fprintf(stream, "--------------------------------------\n");
+  if(czyDoPliku)
+    fclose(stream);
   return;
 }
 
-void usunUrzadzenie(Urzadzenie *Urzadzenia, int id)
+bool usunUrzadzenie(Urzadzenie *Urzadzenia, int id)
 {
   if(Urzadzenia[id].czyAktywny == false || id > currdevices || id < 1){
     printf("Próbujesz usunąć nieistniejące urządzenie. Nieładnie!\n");
-    return;
+    return false;
   }
   printf("-------------------------\nID: %d\nTyp: %d\nNazwa: %s\nOpis: %s\n-------------------------\n", Urzadzenia[id].id, Urzadzenia[id].typ, Urzadzenia[id].nazwa, Urzadzenia[id].opis);
   char x, nl;
@@ -188,7 +190,7 @@ void usunUrzadzenie(Urzadzenie *Urzadzenia, int id)
   scanf("%c%c", &x, &nl);
   if(x == 'Y')
     Urzadzenia[id].czyAktywny = false;
-  return;
+  return true;
 }
 
 void modyfikujUrzadzenie(Urzadzenie *Urzadzenia, int id)
