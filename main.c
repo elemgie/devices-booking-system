@@ -10,11 +10,17 @@ int main()
     printf("Błąd wczytywania bazy. Program zakończył się. Sprawdź pliki urzadzenia.txt oraz wypozyczenia.txt\n");
     return 1;
   }
-  char command = 'P', nl, aux;
+  char command = 'P', nl, aux, czysciciel[10];
   int aux1;
   while(command != 'Q'){
     printf("\nPodaj kod czynności, którą chcesz wykonać.\nI - wypisuje dostępne polecenia.\n");
     scanf("%c%c", &command, &nl);
+    if(nl != '\n'){
+      printf("Błąd wczytywania komendy.\n");
+      wczytajLinie(czysciciel, 0);
+      command = 'P';
+      nl = '\n';
+    }
     if(command == 'I')
       printf("A - dodanie urządzenia, B - dodanie wypożyczenia, D - usunięcie urządzenia, I - wypisanie dostępnych poleceń\nL - wypisanie listy urządzeń, M - modyfikacja urządzenia, N - wypisanie jakiegoś wypożyczenia\nR - skasowanie wypożyczenia, Q - zakończenie programu, W - urządzenia dostępne w zadanym terminie\nX - drukuj tygodniowy plan wypożyczeń, Y - sprawdź wypożyczenia danej osoby.\n");
     if(command == 'A')
