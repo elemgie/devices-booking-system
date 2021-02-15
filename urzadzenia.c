@@ -35,7 +35,7 @@ Urzadzenie *wczytajUrzadzenia()
     maxdevices += ilezapisanych;
     currdevices = ilezapisanych;
   }
-  Urzadzenie *Urzadzenia = calloc(maxdevices + 1, sizeof(Urzadzenia));
+  Urzadzenie *Urzadzenia = calloc(maxdevices + 1, sizeof(Urzadzenie));
   if(Urzadzenia == NULL){
     printf("Program nie mógł zaalokować pamięci i zakończył się błędem.\n");
     return NULL;
@@ -82,7 +82,7 @@ Urzadzenie *wczytajUrzadzenia()
 Urzadzenie *rozszerzUrzadzenia(Urzadzenie *Urzadzenia)
 {
   maxdevices += 100;
-  Urzadzenie *noweUrzadzenia = calloc(maxdevices, sizeof(noweUrzadzenia));
+  Urzadzenie *noweUrzadzenia = calloc(maxdevices, sizeof(Urzadzenie));
   for(int i = 1; i <= currdevices; i++){
     noweUrzadzenia[i].id = Urzadzenia[i].id;
     noweUrzadzenia[i].typ = Urzadzenia[i].typ;
@@ -118,13 +118,11 @@ Urzadzenie *dodajUrzadzenie(Urzadzenie *Urzadzenia)
     Urzadzenia = rozszerzUrzadzenia(Urzadzenia);
   char nl, inp[210];
   currdevices++;
+  printf("Podaj typ urządzenia. 1 - komputer, 2 - projektor, 3 - ekran, 4 - tablet graficzny, 5 - system nagłośnieniowy.\n");
+  while(scanf("%d%c", &Urzadzenia[currdevices].typ, &nl) == 0 || Urzadzenia[currdevices].typ > 5 || Urzadzenia[currdevices].typ < 1)
+    printf("Podano błędny typ urządzenia! Podaj ponownie poprawny numer typu.\n");
   Urzadzenia[currdevices].id = currdevices;
   Urzadzenia[currdevices].czyAktywny = true;
-  printf("Podaj typ urządzenia. 1 - komputer, 2 - projektor, 3 - ekran, 4 - tablet graficzny, 5 - system nagłośnieniowy.\n");
-  while(scanf("%d%c", &Urzadzenia[currdevices].typ, &nl) == 0 || Urzadzenia[currdevices].typ > 5 || Urzadzenia[currdevices].typ < 1){
-    currdevices--;
-    printf("Podano błędny typ urządzenia! Podaj ponownie poprawny numer typu.\n");
-  }
   printf("Podaj nazwę urządzenia. Jej długość nie może przekroczyć 30 znaków.\n");
   while(!wczytajLinie(inp, 30))
     printf("Przekroczono limit znaków. Podaj ponownie nazwę o długości co najwyżej 30 znaków!\n");
@@ -133,10 +131,11 @@ Urzadzenie *dodajUrzadzenie(Urzadzenie *Urzadzenia)
   while(!wczytajLinie(inp, 200))
     printf("Przekroczono limit znaków. Podaj ponownie opis o długości co najwyżej 200 znaków!\n");
   strcpy(Urzadzenia[currdevices].opis, inp);
+  printf("Urządzenie zostało zapisane w systemie pod ID: %d\n", currdevices);
   return Urzadzenia;
 }
 
-void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = 0 - dostęp administracyjny drukujący wszystkie wprowadzone kiedykolwiek rekordy
+void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = -1 - dostęp administracyjny drukujący wszystkie wprowadzone kiedykolwiek rekordy
 {
   FILE *stream;
   if(czyDoPliku)
@@ -146,7 +145,7 @@ void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = 
   bool czyCosWypisano = false;
   fprintf(stream, "--------------------------------------\n");
   for(int i = 1; i <= currdevices; i++)
-    if(((Urzadzenia[i].typ == typ || typ == -1) && Urzadzenia[i].czyAktywny == true) || typ == 0){
+    if(((Urzadzenia[i].typ == typ || typ == 0) && Urzadzenia[i].czyAktywny == true) || typ == -1){
       char s[50];
       czyCosWypisano = true;
       switch(Urzadzenia[i].typ){
@@ -187,7 +186,7 @@ bool usunUrzadzenie(Urzadzenie *Urzadzenia, int id)
   }
   printf("-------------------------\nID: %d\nTyp: %d\nNazwa: %s\nOpis: %s\n-------------------------\n", Urzadzenia[id].id, Urzadzenia[id].typ, Urzadzenia[id].nazwa, Urzadzenia[id].opis);
   char x, nl;
-  printf("Czy na pewno chcesz usunąć to urządzenie? Jeżeli tak - wpisz Y, w przeciwnym przypadku - wpisz N\n");
+  printf("Czy na pewno chcesz usunąć to urządzenie? Jeżeli tak - wpisz Y/N\n");
   scanf("%c%c", &x, &nl);
   if(x == 'Y')
     Urzadzenia[id].czyAktywny = false;
