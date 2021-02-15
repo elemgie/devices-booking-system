@@ -37,7 +37,7 @@ void liczbaNaDate(int liczba, char *data)
 Wypozyczenie *rozszerzWypozyczenia(Wypozyczenie *Wypozyczenia)
 {
   maxrents += 100;
-  Wypozyczenie *noweWypozyczenia = calloc(maxrents, sizeof(noweWypozyczenia));
+  Wypozyczenie *noweWypozyczenia = calloc(maxrents, sizeof(Wypozyczenie));
   for(int i = 1; i <= currents; i++){
     noweWypozyczenia[i].id = Wypozyczenia[i].id;
     noweWypozyczenia[i].idurzadzenia = Wypozyczenia[i].idurzadzenia;
@@ -76,7 +76,7 @@ Wypozyczenie *wczytajWypozyczenia(Urzadzenie *Urzadzenia)
     maxrents += ilezapisanych;
     currents = ilezapisanych;
   }
-  Wypozyczenie *Wypozyczenia = calloc(maxrents + 1, sizeof(Wypozyczenia));
+  Wypozyczenie *Wypozyczenia = calloc(maxrents + 1, sizeof(Wypozyczenie));
   if(Wypozyczenia == NULL){
     printf("Program nie mógł zaalokować pamięci i zakończył się błędem.\n");
     fclose(plik);

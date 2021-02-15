@@ -34,7 +34,7 @@ int main()
         usunRezerwacjeSkasowanegoUrzadzenia(aux1, Wypozyczenia, Urzadzenia);
     }
     if(command == 'L'){
-      printf("Jeżeli chcesz wypisać urządzenia określonego typu - wpisz jego numer. W przeciwnym wypadku - wpisz -1.\n");
+      printf("Jeżeli chcesz wypisać urządzenia określonego typu - wpisz jego numer. W przeciwnym wypadku - wpisz 0.\n");
       printf("1 - komputer, 2 - projektor, 3 - ekran, 4 - tablet graficzny, 5 - system nagłośnieniowy\n");
       while(scanf("%d%c", &aux1, &nl) == 0 || aux1 < -1 || aux1 > 5)
         printf("Podałeś błędny numer typu. Podaj poprawny!\n");

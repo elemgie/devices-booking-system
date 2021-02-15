@@ -115,7 +115,7 @@ void drukujPlanWypozyczen(Urzadzenie *Urzadzenia)
       fprintf(stream, "%02d:00 ", j%24);
       for(int k = 1; k <= currdevices; k++)
         if(Urzadzenia[k].czyAktywny && Urzadzenia[k].rents[poczatek + j] != 0)
-          fprintf(stream, " %d - %s;", Urzadzenia[k].id, Urzadzenia[k].nazwa);
+          fprintf(stream, " %d - %s;", Urzadzenia[k].rents[poczatek + j], Urzadzenia[k].nazwa);
       fprintf(stream, "\n");
     }      
   }
