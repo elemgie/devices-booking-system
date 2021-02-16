@@ -37,7 +37,7 @@ void dostepnoscUrzadzen(Urzadzenie *Urzadzenia)
   else
     stream = stdout;
   bool czyWypisano = false;
-  fprintf(stream, "\n-----------------------\nUrządzenia ");
+  fprintf(stream, "\n\n\n-----------------------\nUrządzenia ");
   if(typ != 0)
     fprintf(stream, "typu %d ", typ);
   char s[20], k[20];
@@ -79,7 +79,7 @@ void drukujPlanWypozyczen(Urzadzenie *Urzadzenia)
   int koniec = MIN(poczatek + 167, 5255);
   liczbaNaDate(MAX(poczatek, 0), s);
   liczbaNaDate(koniec, k);
-  fprintf(stream, "\n---------------------------------------------\nPlan wypożyczeń w tygodniu %s - %s\n---------------------------------------------\n", s, k);
+  fprintf(stream, "\n\n\n---------------------------------------------\nPlan wypożyczeń w tygodniu %s - %s\n---------------------------------------------\n", s, k);
   char dzien[20];
   for(int i = 0; i <= 6; i++){
     if(poczatek + 24*i < 0 || poczatek + 24*i > 5255)
@@ -119,7 +119,7 @@ void drukujPlanWypozyczen(Urzadzenie *Urzadzenia)
       fprintf(stream, "\n");
     }      
   }
-  fprintf(stream, "-----------------------------------------------------------------------------------------------------------------------------\n");
+  fprintf(stream, "-----------------------------------------------------------------------------------------------------------------------------\n\n\n\n");
   if(fil == 'Y')
     fclose(stream);
   return;
@@ -139,7 +139,7 @@ void wypozyczeniaOsoby(Wypozyczenie *Wypozyczenia, Urzadzenie *Urzadzenia)
   else
     stream = stdout;
   bool czyWypisano = false;
-  fprintf(stream, "\n--------------\nWypożyczenia wpisane pod nazwiskiem %s\n--------------\n", dane);
+  fprintf(stream, "\n\n\n------------------------------------------\nWypożyczenia wpisane pod nazwiskiem %s\n--------------\n", dane);
   char s[20], k[20], sem[5];
   for(int i = 1; i <= currents; i++)
     if(Wypozyczenia[i].czyAktywne && strcmp(Wypozyczenia[i].osoba, dane) == 0){
@@ -154,6 +154,7 @@ void wypozyczeniaOsoby(Wypozyczenie *Wypozyczenia, Urzadzenie *Urzadzenia)
     }
   if(!czyWypisano)
     fprintf(stream, "Brak wyników\n--------------\n");
+  fprintf(stream, "------------------------------------------\n");
   if(fil == 'Y')
     fclose(stream);
   return;

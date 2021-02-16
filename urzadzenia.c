@@ -119,8 +119,10 @@ Urzadzenie *dodajUrzadzenie(Urzadzenie *Urzadzenia)
   char nl, inp[210];
   currdevices++;
   printf("Podaj typ urządzenia. 1 - komputer, 2 - projektor, 3 - ekran, 4 - tablet graficzny, 5 - system nagłośnieniowy.\n");
-  while(scanf("%d%c", &Urzadzenia[currdevices].typ, &nl) == 0 || Urzadzenia[currdevices].typ > 5 || Urzadzenia[currdevices].typ < 1)
+  while(scanf("%d%c", &Urzadzenia[currdevices].typ, &nl) == 0 || Urzadzenia[currdevices].typ > 5 || Urzadzenia[currdevices].typ < 1){
+    wczytajLinie(inp, 0);
     printf("Podano błędny typ urządzenia! Podaj ponownie poprawny numer typu.\n");
+  }
   Urzadzenia[currdevices].id = currdevices;
   Urzadzenia[currdevices].czyAktywny = true;
   printf("Podaj nazwę urządzenia. Jej długość nie może przekroczyć 30 znaków.\n");
@@ -139,7 +141,7 @@ void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = 
 {
   FILE *stream;
   if(czyDoPliku)
-    stream = fopen("wydruk_urzadzen.txt", "w");
+    stream = fopen("wydruk_urzadzen.txt", "a+");
   else
     stream = stdout;
   bool czyCosWypisano = false;
@@ -172,7 +174,7 @@ void wypiszUrzadzenia(Urzadzenie *Urzadzenia, int typ, bool czyDoPliku) //typ = 
     }
   if(!czyCosWypisano)
     printf("W bazie nie ma urządzeń spełniających podane wymagania\n");
-  fprintf(stream, "--------------------------------------\n");
+  fprintf(stream, "--------------------------------------\n\n\n\n");
   if(czyDoPliku)
     fclose(stream);
   return;

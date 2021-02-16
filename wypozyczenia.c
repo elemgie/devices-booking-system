@@ -134,7 +134,7 @@ Wypozyczenie *wczytajWypozyczenia(Urzadzenie *Urzadzenia)
         poczatek += 168;
         koniec += 168;
         if(czyDostepneWDanymOkresie(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, poczatek, koniec))
-          zajmijOkresDostepnosci(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, currents, poczatek, koniec);
+          zajmijOkresDostepnosci(Urzadzenia, Wypozyczenia[cnt].idurzadzenia, Wypozyczenia[cnt].id, poczatek, koniec);
       }
     }
     cnt++;
@@ -208,7 +208,7 @@ void wypiszWypozyczenia(Wypozyczenie *Wypozyczenia, int wid, bool czyDoPliku)//i
     else
       printf("Wypożyczenie o podanym ID zostało skasowane\n");
   }
-  fprintf(wypis, "--------------------------------------\n");
+  fprintf(wypis, "--------------------------------------\n\n\n\n");
   if(czyDoPliku)
     fclose(wypis);
   return;
